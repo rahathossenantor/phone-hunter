@@ -1,22 +1,24 @@
-const loadData = async (query) => {
+const loadData = async (query, isShowAll) => {
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${query}`);
     const data = await res.json();
     const phones = data.data;
-    showData(phones);
+    showData(phones, isShowAll);
 }
 
 const phoneContainer = document.getElementById("phone-container");
 
-const showData = (phones) => {
+const showData = (phones, isShowAll) => {
 
     const showAllButtonField = document.getElementById("show-all-btn-field");
-    if (phones.length > 6) {
+    if (phones.length > 12 && !isShowAll) {
         showAllButtonField.classList.remove("hidden");
     } else {
         showAllButtonField.classList.add("hidden");
     }
 
-    phones = phones.slice(0,6);
+    if (!isShowAll) {
+        phones = phones.slice(0,12);
+    }
 
     for (const phone of phones) {
         const card = document.createElement("div");
@@ -37,9 +39,14 @@ const showData = (phones) => {
     }
 }
 
-const searchPhones = () => {
+const searchPhones = (isShowAll) => {
     const searchQuery = document.getElementById("search-input").value;
-    loadData(searchQuery);
-    document.getElementById("search-input").value = "";
+    loadData(searchQuery, isShowAll);
+    // document.getElementById("search-input").value = "";
     phoneContainer.innerHTML = "";
+}
+
+// handle show all button
+const showAllData = () => {
+    searchPhones(true);
 }
