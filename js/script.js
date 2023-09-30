@@ -30,7 +30,7 @@ const showData = (phones, isShowAll) => {
                 <p class="text-lg">There are many variations of passages of available, but the majority have suffered</p>
                 <h4 class="text-2xl font-semibold">$999</h4>
                 <div class="text-center" >
-                    <button class="btn btn-primary normal-case">Show Details</button>
+                    <button onclick="showProductDetails('${phone.slug}')" class="btn btn-primary normal-case">Show Details</button>
                 </div>
             </div>
         </div>
@@ -49,4 +49,12 @@ const searchPhones = (isShowAll) => {
 // handle show all button
 const showAllData = () => {
     searchPhones(true);
+}
+
+// show product details
+const showProductDetails = async (id) => {
+    // load details
+    const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
+    const datails = await res.json();
+    console.log(datails.data);
 }
